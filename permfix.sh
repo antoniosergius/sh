@@ -86,6 +86,6 @@ do
    esac
 done < $tmpfile
 rm -fr $tmpfile
-
+exit 0
 
 
