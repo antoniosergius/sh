@@ -18,30 +18,74 @@
 #  along with this program; if not, write to the Free Software
 #  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #  MA 02110-1301, USA.
+#
+#  --
+#
+#  Altera a permissão dos arquivos e diretórios não ocultos do $HOME.
+#  As permissões do sistema geralmente vem padronizadas no format 755 ou 644
+#  dependendo do tipo de arquivo. Esse script remove a terceira permissão
+#  (outros) do octal XXX, as atualizando para zero. Isso faz com que apenas
+#  o dono e membros do grupo possa acessar os arquivos.
+#
+#  Algumas pastas são específicas do meu sistema. Caso queira usar este script
+#  altere para melhor satisfazê-lo.
+#
 
-allfiles=$(find $HOME)
-for file in $allfiles
+function print_usage {
+    echo "Uso: permfix [OPÇÃO]"
+    echo 'Altera a permissão dos arquivos e diretórios não ocultos do $HOME.'
+    echo ""
+    echo "   -h, --help       mostra esta mensagem "
+    echo "   -v, --verbose    imprime na tela as modificações"
+    echo ""
+    echo "Exemplos:"
+    echo "   permfix -v"
+    echo "   permfix"
+    echo "   permfix --help"
+    exit 0
+}
+
+
+if [ $# -gt 0 ]; then
+   while [ "${1+defined}" ]; do
+      case "$1" in
+         -h | --help)
+            print_usage
+            ;;
+         -v | --verbose)
+            verbose="verbose"
+            shift
+            ;;
+          *)
+            print_usage
+      esac
+   done
+fi
+
+tmpfile=/tmp/permfix.tmp
+find "$HOME" > $tmpfile
+while read file
 do
-   curr="$HOME/$file"
-   if [ -d "$curr" ]; then
-      chmod -R 700 "$curr"
-   elif [ -f "$curr" ]; then
-      chmod 600 "$curr"
-   fi
-done
-
-chmod -R 700 "$HOME/bin"
-chmod -R 700 "$HOME/devel"
-
-tmpfile=/tmp/mychmod.tmp
-ls -Ab $HOME | grep -v '\.' | grep -Ev 'devel|bin' > $tmpfile
-while read line
-do
-   curr="$HOME/$line"
-   chmod -R 750 "$curr"
+   case "$file" in
+      $HOME/.*|$HOME/bin*|$HOME/devel*) ;;
+      *) #Se for diretório coloca o bit de exec. É necessário para acessá-los.
+         if [ -d "$file" ]; then
+            if [ "$verbose" ]; then
+               chmod -v 750 "$file"
+            else
+               chmod 750 "$file"
+            fi
+         # se for arquivo comum e maior que zero
+         elif [ -f "$file" ] && [ -s "$file" ]; then
+            if [ "$verbose" ]; then
+               chmod -v 640 "$file"
+            else
+               chmod 640 "$file"
+            fi
+         fi
+   esac
 done < $tmpfile
-
 rm -fr $tmpfile
-exit
+
 
 
