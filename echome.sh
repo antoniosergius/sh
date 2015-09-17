@@ -75,11 +75,12 @@ function print_readme {
    echo "#"
    echo "# repository - https://github.com/antoniosergius/repository.git"
    echo "#"
-   echo "# Repositório público. Mais informações sobre o projeto."
+   echo "# Repositório público. Insira mais informações sobre o projeto aqui."
+   echo "#"
    echo "# Autor: $(cat /etc/passwd | grep $USER | cut -d: -f5| cut -d, -f1) <antoniosergio@mail.com>"
+   echo "# $(date +%Y/%m/%d\ %H:%M:%S)"
    echo "#"
-   echo "#  $(date +%Y/%m/%d\ %H:%M:%S)"
-   echo "#"
+   exit 0
 }
 
 function print_license {
@@ -91,22 +92,30 @@ if [ $# -gt 0 ]; then
       case "$1" in
          -h | --help)
             print_usage
+            shift
             ;;
          -c | --header)
             print_header
+            shift
             ;;
-         -l | --licence)
-            print_licence
+         -l | --license)
+            print_license
+            shift
             ;;
          -r | --readme)
             print_readme
+            shift
+            ;;
           *)
             print_usage
       esac
    done
 else
-   print_usage
+   echo "#"
+   echo "# Autor: $(cat /etc/passwd | grep $USER | cut -d: -f5| cut -d, -f1) <antoniosergio@mail.com>"
+   echo "# $(date +%Y/%m/%d\ %H:%M:%S)"
+   echo "#"
 fi
-
+exit 0
 
 
