@@ -24,9 +24,8 @@ if [ $(id -u) -ne 0 ]; then
    exit
 fi
 
-# Para que os comando ifdown e ifup funcionem é preciso que os 
-# arquivos de configuração de rede (/etc/network/interfaces) estejam
-# corretamente configurados. 
+# Este script assume que o arquivo /etc/network/interfaces contém suas interfaces
+# de rede configuradas. O programa busca nesse arquivo e reinicia cada interface.
 
 tmpfile=/tmp/netfix.tmp
 ifquery -l > $tmpfile
