@@ -33,6 +33,7 @@ function print_usage {
     echo "Coloca o comando echo entre cada linha do arquivo."
     echo ""
     echo "   -h, --help       mostra esta mensagem "
+    echo ""
     exit 0
 }
 
@@ -43,10 +44,11 @@ if [ $# -gt 0 ]; then
             print_usage
             ;;
          *)
-            if [ -f "$file" ] && [ -s "$file" ]; then
-               while read line;
+            if [ -f "$1" ] && [ -s "$1" ]; then
+               IFS=''
+               while read -r line;
                do
-                   echo "echo \"$line\""
+                   echo "echo \"${line}\""
                done < "$1"
                exit 0
             fi

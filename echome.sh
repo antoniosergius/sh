@@ -23,14 +23,7 @@
 #
 # ---
 #
-# Imprime meu nome
-#
-#todo:
-#
-#opcao -c para imprimir cabeçalho
-#opcao -l para imprimir licença
-#opcao -n para imprimir nome e email
-#opcao -r para imprimir readme
+# Imprime informações para cabeçalhos de arquivos de desenvolvimento.
 #
 function print_usage {
     echo "Uso: echome.sh [OPÇÃO]"
@@ -50,25 +43,47 @@ function print_usage {
 }
 
 function print_header {
-    echo "$(date +%Y/%m/%d\ %H:%M:%S)" #imprime a data no formato YYYY/mm/dd HH:MM:SS
-    echo "#!/bin/bash"
-    echo "#"
-    echo "#  script.sh"
-    echo "#"
-    echo "#  Copyright $(date +%Y) $(cat /etc/passwd | grep $USER | cut -d: -f5| cut -d, -f1) <antoniosergio@mail.com>"
-    echo "Imprime informações do usuário para que seja usada em arquivos como"
-    echo "README, LICENSE ou o cabeçalho de um arquivo de desenvolvimento de "
-    echo "programas."
-    echo ""
-    echo "   -h, --help         mostra esta mensagem "
-    echo "   -c, --header       imprime o cabeçalho "
-    echo "   -l, --license      imprime licença GNU GPL v2"
-    echo "   -r, --readme       imprime formato de um arquivo README"
-    echo ""
-    echo "Exemplos:"
-    echo "   echome.sh -h"
-    echo "   echome.sh -l"
-    exit 0
+   echo "#!/bin/bash"
+   echo "#"
+   echo "#  script.sh"
+   echo "#"
+   echo "#  Copyright $(date +%Y) $(cat /etc/passwd | grep $USER | cut -d: -f5| cut -d, -f1) <antoniosergio@mail.com>"
+   echo "#"
+   echo "#  This program is free software; you can redistribute it and/or modify"
+   echo "#  it under the terms of the GNU General Public License as published by"
+   echo "#  the Free Software Foundation; either version 2 of the License, or"
+   echo "#  (at your option) any later version."
+   echo "#"
+   echo "#  This program is distributed in the hope that it will be useful,"
+   echo "#  but WITHOUT ANY WARRANTY; without even the implied warranty of"
+   echo "#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the"
+   echo "#  GNU General Public License for more details."
+   echo "#"
+   echo "#  You should have received a copy of the GNU General Public License"
+   echo "#  along with this program; if not, write to the Free Software"
+   echo "#  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,"
+   echo "#  MA 02110-1301, USA."
+   echo "#"
+   echo "#  $(date +%Y/%m/%d\ %H:%M:%S)"
+   echo "#"
+   echo "# ---"
+   echo "#"
+   exit 0
+}
+
+function print_readme {
+   echo "#"
+   echo "# repository - https://github.com/antoniosergius/repository.git"
+   echo "#"
+   echo "# Repositório público. Mais informações sobre o projeto."
+   echo "# Autor: $(cat /etc/passwd | grep $USER | cut -d: -f5| cut -d, -f1) <antoniosergio@mail.com>"
+   echo "#"
+   echo "#  $(date +%Y/%m/%d\ %H:%M:%S)"
+   echo "#"
+}
+
+function print_license {
+   /bin/bash /home/serginho/devel/sh/printgpl2.sh
 }
 
 if [ $# -gt 0 ]; then
@@ -89,31 +104,9 @@ if [ $# -gt 0 ]; then
             print_usage
       esac
    done
+else
+   print_usage
 fi
 
-tmpfile=/tmp/permfix.tmp
-find "$HOME" > $tmpfile
-while read file
-do
-   case "$file" in
-      $HOME/.*|$HOME/bin*|$HOME/devel*) ;;
-      *) #Se for diretório coloca o bit de exec. É necessário para acessá-los.
-         if [ -d "$file" ]; then
-            if [ "$verbose" ]; then
-               chmod -v 750 "$file"
-            else
-               chmod 750 "$file"
-            fi
-         # se for arquivo comum e maior que zero
-         elif [ -f "$file" ] && [ -s "$file" ]; then
-            if [ "$verbose" ]; then
-               chmod -v 640 "$file"
-            else
-               chmod 640 "$file"
-            fi
-         fi
-   esac
-done < $tmpfile
-rm -fr $tmpfile
-exit 0
+
 
