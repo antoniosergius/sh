@@ -22,6 +22,7 @@
 #  2015/09/16 22:31:32
 
 #todo:
+#
 #opcao -c para imprimir cabeçalho
 #opcao -l para imprimir licença
 #opcao -n para imprimir nome e email
