@@ -72,14 +72,42 @@ function print_header {
 }
 
 function print_readme {
-   echo "#"
-   echo "# repository - https://github.com/antoniosergius/repository.git"
-   echo "#"
-   echo "# Repositório público. Insira mais informações sobre o projeto aqui."
-   echo "#"
-   echo "# Autor: $(cat /etc/passwd | grep $USER | cut -d: -f5| cut -d, -f1) <antoniosergio@mail.com>"
-   echo "# $(date +%Y/%m/%d\ %H:%M:%S)"
-   echo "#"
+   echo "## Synopsis"
+   echo ""
+   echo "repository - https://github.com/antoniosergius/repository.git"
+   echo ""
+   echo "At the top of the file there should be a short introduction and/ or overview that explains **what** the project is. This description should match descriptions added for package managers (Gemspec, package.json, etc.)"
+   echo "Author: $(cat /etc/passwd | grep $USER | cut -d: -f5| cut -d, -f1) - antoniosergio@mail.com"
+   echo "Date  : $(date +%Y/%m/%d\ %H:%M:%S)"
+   echo ""
+   echo "## Code Example"
+   echo ""
+   echo "Show what the library does as concisely as possible, developers should be able to figure out **how** your project solves their problem by looking at the code example. Make sure the API you are showing off is obvious, and that your code is short and concise."
+   echo ""
+   echo "## Motivation"
+   echo ""
+   echo "A short description of the motivation behind the creation and maintenance of the project. This should explain **why** the project exists."
+   echo ""
+   echo "## Installation"
+   echo ""
+   echo "Provide code examples and explanations of how to get the project."
+   echo ""
+   echo "## API Reference"
+   echo ""
+   echo "Depending on the size of the project, if it is small and simple enough the reference docs can be added to the README. For medium size to larger projects it is important to at least provide a link to where the API reference docs live."
+   echo ""
+   echo "## Tests"
+   echo ""
+   echo "Describe and show how to run the tests with code examples."
+   echo ""
+   echo "## Contributors"
+   echo ""
+   echo "Let people know how they can dive into the project, include important links to things like issue trackers, irc, twitter accounts if applicable."
+   echo ""
+   echo "## License"
+   echo ""
+   echo "A short snippet describing the license (MIT, Apache, etc.)"
+   echo ""
    exit 0
 }
 
@@ -112,10 +140,11 @@ if [ $# -gt 0 ]; then
    done
 else
    echo "#"
-   echo "# Autor: $(cat /etc/passwd | grep $USER | cut -d: -f5| cut -d, -f1) <antoniosergio@mail.com>"
-   echo "# $(date +%Y/%m/%d\ %H:%M:%S)"
+   echo "# Author: $(cat /etc/passwd | grep $USER | cut -d: -f5| cut -d, -f1) <antoniosergio@mail.com>"
+   echo "# Date  : $(date +%Y/%m/%d\ %H:%M:%S)"
    echo "#"
 fi
 exit 0
+
 
 
