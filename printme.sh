@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-#  printbetween.sh
+#  printme.sh
 #
 #  Copyright 2015 Antônio Sérgio Garcia Ferreira <antoniosergio@mail.com>
 #
