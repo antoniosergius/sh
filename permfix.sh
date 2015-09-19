@@ -32,7 +32,7 @@
 #
 
 function print_usage {
-    echo "Uso: permfix [OPÇÃO]"
+    echo "Uso: permfix [OPÇÃO] [DIRETÓRIO]"
     echo 'Altera a permissão dos arquivos e diretórios não ocultos do $HOME.'
     echo ""
     echo "   -h, --help       mostra esta mensagem "
@@ -40,11 +40,10 @@ function print_usage {
     echo ""
     echo "Exemplos:"
     echo "   permfix -v"
-    echo "   permfix"
+    echo "   permfix /home/serginho"
     echo "   permfix --help"
     exit 0
 }
-
 
 if [ $# -gt 0 ]; then
    while [ "${1+defined}" ]; do
@@ -57,17 +56,21 @@ if [ $# -gt 0 ]; then
             shift
             ;;
           *)
-            print_usage
+            dir="$1"
+            shift
       esac
    done
 fi
 
+if [ -z "$dir" ]; then
+   $dir="$HOME"
+fi
 tmpfile=/tmp/permfix.tmp
-find "$HOME" > $tmpfile
+find "$dir" > $tmpfile
 while read file
 do
    case "$file" in
-      $HOME/.*|$HOME/bin*|$HOME/devel*) ;;
+      $HOME/.*|$HOME/bin*|*.git*) ;;
       *) #Se for diretório coloca o bit de exec. É necessário para acessá-los.
          if [ -d "$file" ]; then
             if [ "$verbose" ]; then
@@ -82,6 +85,8 @@ do
             else
                chmod 640 "$file"
             fi
+         else
+            echo "arquivo desconhecido: $file"
          fi
    esac
 done < $tmpfile
