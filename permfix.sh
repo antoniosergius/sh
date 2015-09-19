@@ -44,7 +44,7 @@ function print_usage {
     echo "   permfix --help"
     exit 0
 }
-
+command="chmod"
 if [ $# -gt 0 ]; then
    while [ "${1+defined}" ]; do
       case "$1" in
@@ -52,7 +52,7 @@ if [ $# -gt 0 ]; then
             print_usage
             ;;
          -v | --verbose)
-            verbose="verbose"
+            command="chmod -v"
             shift
             ;;
           *)
@@ -65,6 +65,7 @@ fi
 if [ -z "$dir" ]; then
    $dir="$HOME"
 fi
+
 tmpfile=/tmp/permfix.tmp
 find "$dir" > $tmpfile
 while read file
@@ -73,21 +74,12 @@ do
       $HOME/.*|$HOME/bin*|*.git*) ;;
       *) #Se for diretório coloca o bit de exec. É necessário para acessá-los.
          if [ -d "$file" ]; then
-            if [ "$verbose" ]; then
-               chmod -v 750 "$file"
-            else
-               chmod 750 "$file"
-            fi
+            command="$command 750 $file"
          # se for arquivo comum e maior que zero
          elif [ -f "$file" ] && [ -s "$file" ]; then
-            if [ "$verbose" ]; then
-               chmod -v 640 "$file"
-            else
-               chmod 640 "$file"
-            fi
-         else
-            echo "arquivo desconhecido: $file"
+            command="$command 640 $file"
          fi
+         eval $command
    esac
 done < $tmpfile
 rm -fr $tmpfile
