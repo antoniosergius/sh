@@ -33,7 +33,8 @@
 
 function print_usage {
     echo "Uso: permfix [OPÇÃO] [DIRETÓRIO]"
-    echo 'Altera a permissão dos arquivos e diretórios não ocultos do $HOME.'
+    echo 'Altera a permissão dos arquivos e diretórios não ocultos de DIRETÓRIO.'
+    echo "Sem argumentos o programa entende DIRETÓRIO como \$HOME"
     echo ""
     echo "   -h, --help       mostra esta mensagem "
     echo "   -v, --verbose    imprime na tela as modificações"
@@ -44,7 +45,8 @@ function print_usage {
     echo "   permfix --help"
     exit 0
 }
-command="chmod"
+
+prefix="chmod"
 if [ $# -gt 0 ]; then
    while [ "${1+defined}" ]; do
       case "$1" in
@@ -52,34 +54,38 @@ if [ $# -gt 0 ]; then
             print_usage
             ;;
          -v | --verbose)
-            command="chmod -v"
+            prefix="chmod -v"
             shift
             ;;
           *)
             dir="$1"
+            if [ ! -d "$dir" ]; then
+               print_usage
+            fi
             shift
       esac
    done
 fi
-
 if [ -z "$dir" ]; then
    $dir="$HOME"
 fi
 
-tmpfile=/tmp/permfix.tmp
+tmpfile=/tmp/permfix.$(date +%Y%m%d%H%M%S).tmp
 find "$dir" > $tmpfile
 while read file
 do
    case "$file" in
-      $HOME/.*|$HOME/bin*|*.git*) ;;
-      *) #Se for diretório coloca o bit de exec. É necessário para acessá-los.
+      #não faz nada se casar com os seguintes padrões
+      $HOME/.*|$HOME/bin*|*.git*)
+      ;;
+
+      #Se for diretório coloca o bit de execução
+      *) mod=640
          if [ -d "$file" ]; then
-            command="$command 750 $file"
-         # se for arquivo comum e maior que zero
-         elif [ -f "$file" ] && [ -s "$file" ]; then
-            command="$command 640 $file"
+            mod=750
          fi
-         eval $command
+         command $prefix $mod "$file"
+      ;;
    esac
 done < $tmpfile
 rm -fr $tmpfile
