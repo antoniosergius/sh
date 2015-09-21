@@ -70,9 +70,9 @@ if [ -z "$dir" ]; then
    $dir="$HOME"
 fi
 
-tmpfile=/tmp/permfix.$(date +%Y%m%d%H%M%S).tmp
-find "$dir" > $tmpfile
-while read file
+# A opção -print0 imprime o nome do arquivo seguido de um caracter nulo.
+# Em seguida read lê a entrada usando o caracter nulo como delimitador.
+find "$dir" -print0 | while read -d $'\0' file
 do
    case "$file" in
       #não faz nada se casar com os seguintes padrões
@@ -87,8 +87,5 @@ do
          command $prefix $mod "$file"
       ;;
    esac
-done < $tmpfile
-rm -fr $tmpfile
+done
 exit 0
-
-
