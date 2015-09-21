@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-#  printme.sh
+#  mkprintable.sh
 #
 #  Copyright 2015 Antônio Sérgio Garcia Ferreira <antoniosergio@mail.com>
 #
@@ -29,8 +29,9 @@
 #
 
 function print_usage {
-    echo "Uso: printbetween.sh ARQUIVO"
-    echo "Coloca o comando echo entre cada linha do arquivo."
+    echo "Uso: mkprintable.sh [ARQUIVO]"
+    echo "Captura a entrada padrão e imprime o conteúdo como argumento"
+    echo "do comando echo. Se um arquivo for informado o comando o lê."
     echo ""
     echo "   -h, --help       mostra esta mensagem "
     echo ""
@@ -46,7 +47,7 @@ if [ $# -gt 0 ]; then
          *)
             if [ -f "$1" ] && [ -s "$1" ]; then
                IFS=''
-               while read -r line;
+               while read line;
                do
                    echo "echo \"${line}\""
                done < "$1"
@@ -55,6 +56,8 @@ if [ $# -gt 0 ]; then
       esac
    done
 else
-   print_usage
+   while read line; do
+      echo "echo \"${line}\""
+   done
 fi
 
