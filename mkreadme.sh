@@ -21,10 +21,11 @@
 #
 #  2015/09/16 22:31:32
 #
-# ---
+#  ---
 #
-# Imprime informações para cabeçalhos de arquivos de desenvolvimento.
+#  Imprime informações para cabeçalhos de arquivos de desenvolvimento.
 #
+
 function print_usage {
     echo "Uso: mkreadme.sh [OPÇÃO | --all DIRETÓRIO]"
     echo "Imprime informações do usuário para que seja usada em arquivos como"

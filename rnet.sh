@@ -17,15 +17,19 @@
 #  along with this program; if not, write to the Free Software
 #  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #  MA 02110-1301, USA.
-
+#
+#  2015/09/04 13:31:32
+#
+#  ---
+#
+#  Este script assume que o arquivo /etc/network/interfaces contém suas interfaces
+#  de rede configuradas. O programa busca nesse arquivo e reinicia cada interface.
+#
 
 if [ $(id -u) -ne 0 ]; then
    echo "rnet.sh: Operação não permitida. Execute como root."
    exit
 fi
-
-# Este script assume que o arquivo /etc/network/interfaces contém suas interfaces
-# de rede configuradas. O programa busca nesse arquivo e reinicia cada interface.
 
 tmpfile=/tmp/netfix.tmp
 ifquery -l > $tmpfile

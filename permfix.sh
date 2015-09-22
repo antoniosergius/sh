@@ -19,7 +19,9 @@
 #  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #  MA 02110-1301, USA.
 #
-#  --
+#  2015/09/04 13:31:32
+#
+#  ---
 #
 #  Altera a permissão dos arquivos e diretórios não ocultos do $HOME.
 #  As permissões do sistema geralmente vem padronizadas no format 755 ou 644

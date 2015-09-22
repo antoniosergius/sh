@@ -19,9 +19,9 @@
 #  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #  MA 02110-1301, USA.
 #
-#  --
+#  2015/09/17 01:05:35#
 #
-#  2015/09/17 01:05:35
+#  ---
 #
 #  Pega o conteúdo de um arquivo e transforma cada linha um script usando o
 #  comando echo. Ex: echo "conteúdo da linha 1"
