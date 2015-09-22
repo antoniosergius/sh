@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-#  echome.sh
+#  mkreadme.sh
 #
 #  Copyright 2015 Antônio Sérgio Garcia Ferreira <serginho@serginho-desktop>
 #
@@ -112,7 +112,7 @@ function print_readme {
 }
 
 function print_license {
-   /bin/bash /home/serginho/devel/sh/printgpl2.sh
+   cat /home/serginho/devel/sh/LICENSE
 }
 
 if [ $# -gt 0 ]; then
