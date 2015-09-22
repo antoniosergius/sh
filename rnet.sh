@@ -27,23 +27,16 @@
 #
 
 if [ $(id -u) -ne 0 ]; then
-   echo "rnet.sh: Operação não permitida. Execute como root."
+   echo "rnet: Operação não permitida. Execute como root."
    exit
 fi
 
-tmpfile=/tmp/netfix.tmp
-ifquery -l > $tmpfile
-
-while read dev
+ifquery -l | while read dev
 do
    if [ "$dev" == "lo" ]; then
       continue
    fi
-   echo "rnet.sh: Reiniciando $dev..."
    ifdown "$dev" > /dev/null 2>&1
    ifup "$dev" > /dev/null 2>&1
-done < $tmpfile
-
-rm -fr $tmpfile
-echo "rnet.sh: Sucesso."
-exit
+done
+exit 0
