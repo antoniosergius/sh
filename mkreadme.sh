@@ -36,6 +36,7 @@ function print_usage {
     echo "   -l, --license      imprime licença GNU GPL v2"
     echo "   -r, --readme       imprime formato de um arquivo README"
     echo "   -a, --all DIR      imprime licença e readme em um diretório"
+    echo "   -d, --date         imprime data no formato %Y/%m/%d %H:%M:%S"
     exit 0
 }
 
@@ -434,6 +435,10 @@ if [ $# -gt 0 ]; then
       case "$1" in
          -\? | --help)
             print_usage
+            ;;
+         -d | --date)
+               echo -e "#\n#  $(date +%Y/%m/%d\ %H:%M:%S)\n#"
+               exit 0
             ;;
          -h | --header)
             if [ "${2+defined}" ] && [ -O "$PWD" ]; then
